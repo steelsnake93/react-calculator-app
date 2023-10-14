@@ -1,17 +1,16 @@
 .calculator {
-  width: 250px;
-  margin: 20px auto;
+  width: 350px;
+  margin: 0 auto;
   text-align: center;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #display {
-  /* width: 100%; */
-  height: 75px;
+  height: 100px;
   padding: 10px 20px;
   text-align: right;
-  font-size: 2.2em;
+  font-size: 3em;
   color: #fff;
   background-color: #1984f6;
 }
@@ -23,8 +22,8 @@
 
 button {
   width: 100%;
-  height: 50px;
-  font-size: 1.3em;
+  height: 60px;
+  font-size: 1.5em;
   cursor: pointer;
   border: none;
   background-color: #e6e6e6;
@@ -47,7 +46,6 @@ button:active {
   background-color: #0056b3;
 }
 
-/* Styling for operation buttons */
 #add,
 #subtract,
 #multiply,
@@ -55,7 +53,7 @@ button:active {
 #clear,
 #backspace,
 #percentage {
-  color: #f62a2a; /* Or any color you prefer */
+  color: #f62a2a;
 }
 
 #add:hover,
@@ -65,5 +63,5 @@ button:active {
 #clear:hover,
 #backspace:hover,
 #percentage:hover {
-  color: #af0c00; /* Slightly darker shade on hover */
+  color: #af0c00;
 }
