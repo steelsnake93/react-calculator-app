@@ -63,7 +63,7 @@ export default class Calculator extends Component {
       this.setState({ isNegative: false });
     }
   };
-  
+
   handleOperator = (operation) => {
     const { inputValue, expression, isCalculated } = this.state;
     if (isCalculated) {
@@ -154,6 +154,29 @@ export default class Calculator extends Component {
     });
   };
 
+  handleDecimal = () => {
+    const { inputValue, expression } = this.state;
+    if (!inputValue.includes(".")) {
+      if (
+        typeof expression[expression.length - 1] === "string" &&
+        !isNaN(expression[expression.length - 1])
+      ) {
+        const newNumber = expression[expression.length - 1] + ".";
+        this.setState({
+          expression: [...expression.slice(0, -1), newNumber],
+          inputValue: newNumber,
+        });
+      } else {
+        this.setState({
+          expression: [...expression, "0."],
+          inputValue: "0.",
+        });
+      }
+    }
+  };
+
+
+
   render() {
     const { inputValue } = this.state;
     return (
@@ -162,6 +185,7 @@ export default class Calculator extends Component {
         <Keypad
           handleButtonClick={this.handleButtonClick}
           handleClear={this.handleClear}
+          handleDecimal={this.handleDecimal}
         />
       </div>
     );
