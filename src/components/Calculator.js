@@ -63,8 +63,96 @@ export default class Calculator extends Component {
       this.setState({ isNegative: false });
     }
   };
+  
+  handleOperator = (operation) => {
+    const { inputValue, expression, isCalculated } = this.state;
+    if (isCalculated) {
+      this.setState({
+        expression: [inputValue, operation],
+        isCalculated: false,
+        inputValue: "0",
+      });
+    } else {
+      let lastElement = expression[expression.length - 1];
+      if (lastElement && lastElement.endsWith(".")) {
+        lastElement = lastElement + "0";
+        this.setState({
+          expression: [...expression.slice(0, -1), lastElement, operation],
+          inputValue: "0",
+        });
+      } else if (
+        ["+", "-", "*", "/"].includes(expression[expression.length - 1])
+      ) {
+        if (operation === "-" && expression[expression.length - 1] !== "-") {
+          this.setState({ isNegative: true });
+          return;
+        } else {
+          this.setState({
+            expression: [...expression.slice(0, -1), operation],
+            isNegative: false,
+            inputValue: "0",
+          });
+        }
+      } else {
+        this.setState({
+          expression: [...expression, operation],
+          inputValue: "0",
+        });
+      }
+    }
+  };
 
+  handleEqual = () => {
+    const { expression } = this.state;
+    if (!expression.length) return;
+    let result = parseFloat(expression[0]);
+    for (let i = 1; i < expression.length; i += 2) {
+      const op = expression[i];
+      const val = parseFloat(expression[i + 1]);
+      switch (op) {
+        case "+":
+          result += val;
+          break;
+        case "-":
+          result -= val;
+          break;
+        case "*":
+          result *= val;
+          break;
+        case "/":
+          if (val === 0) {
+            this.setState({
+              inputValue: "Error: Division by Zero",
+              expression: [],
+            });
+            return;
+          }
+          result /= val;
+          break;
+        default:
+          break;
+      }
+    }
+    this.setState({
+      inputValue: result.toString(),
+      expression: [result],
+      isCalculated: true,
+    });
+  };
 
+  handleClear = () => {
+    this.setState({
+      inputValue: "0",
+      expression: [],
+      isCalculated: false,
+    });
+  };
+
+  handleBackspace = () => {
+    this.setState({
+      inputValue: this.state.inputValue.slice(0, -1) || "0",
+    });
+  };
 
   render() {
     const { inputValue } = this.state;
@@ -73,6 +161,7 @@ export default class Calculator extends Component {
         <Display value={this.state.inputValue} />
         <Keypad
           handleButtonClick={this.handleButtonClick}
+          handleClear={this.handleClear}
         />
       </div>
     );
