@@ -178,7 +178,6 @@ export default class Calculator extends Component {
 
 
   render() {
-    const { inputValue } = this.state;
     return (
       <div className="calculator">
         <Display value={this.state.inputValue} />
